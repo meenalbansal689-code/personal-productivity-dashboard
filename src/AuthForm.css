@@ -1,0 +1,64 @@
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-size: medium;
+}
+
+.auth-container {
+  font-size: medium;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #d92d0f, #e2ad27);
+}
+
+.auth-card {
+  background: #ffc085;
+  padding: 40px;
+  border-radius: 15px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.auth-card h2 {
+  margin-bottom: 20px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+  transition: 0.3s;
+}
+
+.auth-card input:focus {
+  border-color: #ba0a45;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  background: #ff6c6c;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.auth-card button:hover {
+  background: #BD114A;
+}
+
+.toggle-text {
+  margin-top: 15px;
+  color: black;
+  cursor: pointer;
+  font-size: 14px;
+}

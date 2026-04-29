@@ -1,0 +1,51 @@
+.settings-container {
+  max-width: 400px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(248, 184, 184, 0.463);
+}
+
+.settings-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.settings-container input {
+  width: 100%;
+  font-size: medium;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.settings-container button {
+  width: 100%;
+  font-size: medium;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.save-btn {
+  background: #D75656;
+  color: white;
+}
+
+.save-btn:hover {
+  background: rgb(247, 184, 198);
+}
+
+.reset-btn {
+  background: #D75656;
+  color: white;
+}
+
+.reset-btn:hover {
+  background: rgb(247, 184, 198);;
+}

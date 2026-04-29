@@ -1,0 +1,50 @@
+.analytics-container {
+  padding: 20px;
+}
+
+.analytics-container h2 {
+  margin-bottom: 20px;
+}
+
+.analytics-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.analytics-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.analytics-card h3 {
+  font-size: 28px;
+  margin-top: 10px;
+}
+
+.analytics-card.completed {
+  border-left: 5px solid #d882bd;
+}
+
+.analytics-card.pending {
+  border-left: 5px solid #f1f436;
+}
+
+.analytics-card.total {
+  border-left: 5px solid #21f3c6;
+}
+.analytics-card.total {
+  border-right: 5px solid #f321cd;
+}
+.analytics-card.total {
+  border-right: 5px solid #2152f3;
+}
+.analytics-card.pending {
+  border-right: 5px solid #43e922;
+}
+.analytics-card.completed {
+  border-right: 5px solid #f3a321;
+}

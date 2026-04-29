@@ -1,0 +1,46 @@
+.kanban-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: #f7f270;
+  min-height: 100vh;
+  font-size: medium;
+}
+
+.kanban-column {
+  flex: 1;
+  background: #f35e5e8c;
+  padding: 15px;
+  border-radius: 12px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  font-size: medium;
+  box-sizing: 40px;
+   
+}
+
+.kanban-column {
+  overflow-y: auto;
+}
+
+.task-card {
+  background: rgb(255, 255, 255);
+  padding: 4px;
+  margin-bottom: 8px;
+  border-radius: 7px;
+  box-shadow: 0 2px 6px rgb(253, 187, 187);
+  font-size: small;
+}
+.Hover .task-card {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.task-column h3 {
+  font-size: 45px;    
+  font-weight: bold;
+  color: rgb(255, 143, 143);
+  margin-bottom: 20px;
+}
+.task-column h3 span {
+  font-size: 48px;
+}

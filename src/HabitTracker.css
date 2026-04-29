@@ -1,0 +1,59 @@
+.habits-container {
+  padding: 20px;
+}
+.habit-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+ box-shadow: 0 4px 15px rgba(248, 184, 184, 0.827);
+ border:0vmin;
+ font-size: larger;
+}
+
+.habit-form input {
+  flex: 1;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.habit-form button {
+  background: #fbd709;
+  color: black;
+  padding: 10px 15px;
+  box-shadow: 0 4px 15px rgba(248, 184, 184, 0.463);
+  border: 0cqi;
+}
+.habit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.habit-card {
+  background: rgb(255, 218, 218);
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.habit-actions button {
+  margin-left: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.habit-actions button:first-child {
+  background: #f3212174;
+  color: white;
+}
+
+.habit-actions button:last-child {
+  background: #f4eb36;
+  color: white;
+}
