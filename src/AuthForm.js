@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AuthForm.css";
-import "./Sidebar.css";
-import "./Dashboard.css";
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,30 +12,17 @@ export default function AuthForm() {
 
   const navigate = useNavigate();
 
-  // LOGIN
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!form.email.trim() || !form.password.trim()) {
-      alert("Please fill email and password first");
-      return;
-    }
+    if (form.email.trim() && form.password.trim()) {
+    
+      localStorage.setItem("isAuthenticated", "true");
 
-    if (
-      form.email === "admin@gmail.com" &&
-      form.password === "4321"
-    ) {
-      sessionStorage.setItem("isAuthenticated", "true");
       navigate("/dashboard");
     } else {
-      alert("Invalid credentials");
+      alert("Enter email & password");
     }
-  };
-
-  // LOGOUT
-  const logout = () => {
-    sessionStorage.removeItem("isAuthenticated");
-    navigate("/");
   };
 
   return (
@@ -49,16 +34,12 @@ export default function AuthForm() {
         </h2>
 
         <form onSubmit={handleSubmit}>
-
           <input
             type="email"
             placeholder="Enter Email"
             value={form.email}
             onChange={(e) =>
-              setForm({
-                ...form,
-                email: e.target.value
-              })
+              setForm({ ...form, email: e.target.value })
             }
           />
 
@@ -67,23 +48,13 @@ export default function AuthForm() {
             placeholder="Enter Password"
             value={form.password}
             onChange={(e) =>
-              setForm({
-                ...form,
-                password: e.target.value
-              })
+              setForm({ ...form, password: e.target.value })
             }
           />
 
-          <button
-            type="submit"
-            disabled={
-              !form.email.trim() ||
-              !form.password.trim()
-            }
-          >
+          <button type="submit">
             {isLogin ? "Login" : "Signup"}
           </button>
-
         </form>
 
         <p
