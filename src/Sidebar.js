@@ -66,7 +66,3 @@ export default function Sidebar() {
     </div>
   );
 }
-
-
-
-// testing code
