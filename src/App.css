@@ -1,105 +1,220 @@
+:root {
+  --dark: #355872;
+  --medium: #7BA5C8;
+  --light: #8DBBE0;
+  --bg: #D8D7CF;
+}
+:root {
+  --primary-dark: #355872;
+  --primary-medium: #7BA5C8;
+  --primary-light: #8DBBE0;
+  --background-light: #D8D7CF;
+
+  --white: #ffffff;
+  --text-dark: #1e293b;
+  --shadow: rgba(53, 88, 114, 0.18);
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
-
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: linear-gradient(
+    135deg,
+    var(--background-light),
+    var(--primary-light)
+  );
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
 .app {
   display: flex;
-}
-
-.main-content {
-  margin-left: 220px; 
-  padding: 20px;
-  width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+}
+.sidebar {
+  width: 240px;
+  background: linear-gradient(
+    180deg,
+    var(--primary-dark),
+    #2c4a60
+  );
+  color: var(--white);
+  min-height: 100vh;
+  padding: 25px 18px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+  z-index: 1000;
+}
+.sidebar h2 {
+  color: white;
+  margin-bottom: 25px;
+  font-size: 24px;
+  text-align: center;
+}
+.sidebar button,
+.sidebar a {
+  width: 100%;
+  border: none;
+  padding: 14px 16px;
+  margin: 10px 0;
+  border-radius: 12px;
+  background: transparent;
+  color: white;
+  font-size: 15px;
+  text-align: left;
+  transition: 0.3s ease;
+  cursor: pointer;
 }
 
-h1, h2, h3 {
-  color: #333;
+.sidebar button:hover,
+.sidebar a:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateX(5px);
+}
+.sidebar .active {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(5px);
+}
+.main-content {
+  margin-left: 240px;
+  padding: 25px;
+  width: calc(100% - 240px);
+  min-height: 100vh;
+}
+h1,
+h2,
+h3 {
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+}
+.card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 8px 25px var(--shadow);
+  transition: 0.3s ease;
 }
 
+.card:hover {
+  transform: translateY(-4px);
+}
 button {
   cursor: pointer;
   border: none;
   outline: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: 0.2s ease;
+  padding: 12px 18px;
+  border-radius: 12px;
+  transition: 0.3s ease;
+  background: var(--primary-dark);
+  color: var(--white);
+  font-weight: 500;
+  font-size: 14px;
 }
 
 button:hover {
-  opacity: 0.9;
+  background: var(--primary-medium);
+  transform: translateY(-2px);
 }
-
-input, select {
-  outline: none;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  margin: 5px 0;
+input,
+select,
+textarea {
   width: 100%;
-}
-
-.card {
-  background: white;
-  padding: 15px;
+  padding: 12px 14px;
+  margin-top: 8px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 2px solid transparent;
+  background: rgba(255,255,255,0.8);
+  outline: none;
+  transition: 0.3s ease;
+  font-size: 14px;
 }
 
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 10px rgba(53, 88, 114, 0.2);
+}
 .flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
 .grid {
   display: grid;
   gap: 20px;
 }
-
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ccc;
+  background: var(--primary-medium);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #999;
+  background: var(--primary-dark);
 }
-body {
-  background: linear-gradient(135deg, #FFF9C4, #FFE082);
-}
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-}
-.container {
-  display: flex;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
 }
 
-.sidebar {
-  width: 250px;
-}
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
+table th {
+  background: var(--primary-dark);
+  color: white;
+  padding: 12px;
 }
 
+table td {
+  background: rgba(255,255,255,0.7);
+  padding: 12px;
+}
+@media (max-width: 768px) {
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    position: relative;
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 15px;
+  }
+
+  .flex {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
 @media (max-width: 480px) {
+
   h1 {
+    font-size: 22px;
+  }
+
+  h2 {
     font-size: 18px;
   }
 
-  .sidebar {
-    display: none;
+  .card {
+    padding: 15px;
+  }
+
+  button {
+    width: 100%;
   }
 }

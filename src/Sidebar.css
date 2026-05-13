@@ -1,69 +1,122 @@
 .sidebar {
   width: 220px;
   height: 100vh;
-  background: #fbe046;
-  color: #D75656;
+
+  background: #355872;
+  color: white;
+
   position: fixed;
-  left: 0;
   top: 0;
-  padding: 10px;
+  left: 0;
+
+  padding: 15px 12px;
   z-index: 1000;
 
   display: flex;
   flex-direction: column;
+
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+
+  overflow-y: auto;
 }
 
 .logo {
   font-size: 28px;
   font-weight: bold;
-  margin-bottom: 27px;
+  margin-bottom: 30px;
+
+  color: white;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  font-size: 30px;
+  font-weight: bold;
+
+  color: white;
+
+  margin-bottom: 25px;
+}
+
+.logo-img {
+  width: 48px;
+  height: 48px;
+
+  object-fit: contain;
 }
 
 .sidebar button {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 12px;
 
   width: 100%;
-  padding: 10px 12px;
+
+  padding: 12px 14px;
   margin-bottom: 10px;
 
   border: none;
+  outline: none;
+
   background: transparent;
-  color: #dd4c4c;
 
-  font-size: 18px;
-  text-align: center;
+  color: #D8D7CF;
 
-  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 500;
+
+  text-align: left;
+
+  border-radius: 12px;
+
   cursor: pointer;
 
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
 }
 
 .sidebar button:hover {
-  background: #BD114A;
+  background: #7BA5C8;
   color: white;
+
+  transform: translateX(3px);
 }
 
 .sidebar button.active {
-  background: #BD114A;
-  color: rgb(25, 34, 27);
+  background: #8DBBE0;
+  color: #355872;
+
+  font-weight: 700;
 }
 
-.sidebar button:last-child {
+.logout-btn {
   margin-top: auto;
-}
-.logo-title{
-display:flex;
-align-items:center;
-gap:12px;
-font-size:32px;
-font-weight:bold;
+
+  background: rgba(255, 255, 255, 0.08) !important;
+
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-.logo-img{
-width:50px;
-height:50px;
-object-fit:contain;
+.logout-btn:hover {
+  background: #e74c3c !important;
+  color: white !important;
+}
+
+@media screen and (max-width: 768px) {
+
+  .sidebar {
+    width: 200px;
+  }
+
+  .sidebar button {
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+
+  .logo-title {
+    font-size: 24px;
+  }
+
 }

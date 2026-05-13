@@ -1,50 +1,111 @@
 .analytics-container {
-  padding: 20px;
+  margin-left: 240px;
+
+  padding: 35px;
+
+  min-height: 100vh;
+
+  background: #f5f7fa;
 }
 
 .analytics-container h2 {
-  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+
+  color: #355872;
+
+  margin-bottom: 30px;
+}
+
+.analytics-chart {
+  width: 100%;
+  height: 500px;
+
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 18px;
+
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 .analytics-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
   gap: 20px;
+
+  margin-bottom: 30px;
 }
 
 .analytics-card {
   background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  text-align: center;
+
+  padding: 22px;
+
+  border-radius: 16px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+  transition: all 0.3s ease;
+}
+
+.analytics-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow: 0 10px 22px rgba(0,0,0,0.12);
 }
 
 .analytics-card h3 {
-  font-size: 28px;
-  margin-top: 10px;
+  font-size: 20px;
+
+  color: #666;
+
+  margin-bottom: 12px;
 }
 
-.analytics-card.completed {
-  border-left: 5px solid #d882bd;
+.analytics-card h1 {
+  font-size: 36px;
+
+  color: #355872;
+
+  font-weight: 700;
 }
 
-.analytics-card.pending {
-  border-left: 5px solid #f1f436;
+.recharts-wrapper {
+  font-size: 14px;
 }
 
-.analytics-card.total {
-  border-left: 5px solid #21f3c6;
+.recharts-cartesian-axis-tick-value {
+  fill: #555;
 }
-.analytics-card.total {
-  border-right: 5px solid #f321cd;
+
+.recharts-tooltip-wrapper {
+  border-radius: 10px;
 }
-.analytics-card.total {
-  border-right: 5px solid #2152f3;
-}
-.analytics-card.pending {
-  border-right: 5px solid #43e922;
-}
-.analytics-card.completed {
-  border-right: 5px solid #f3a321;
+
+@media screen and (max-width: 768px) {
+
+  .analytics-container {
+    margin-left: 200px;
+
+    padding: 20px;
+  }
+
+  .analytics-container h2 {
+    font-size: 26px;
+  }
+
+  .analytics-chart {
+    height: 400px;
+
+    padding: 15px;
+  }
+
+  .analytics-card h1 {
+    font-size: 28px;
+  }
+
 }

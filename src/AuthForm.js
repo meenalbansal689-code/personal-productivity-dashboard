@@ -15,13 +15,17 @@ export default function AuthForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (form.email.trim() && form.password.trim()) {
-    
+    if (
+      form.email === "admin@gmail.com" &&
+      form.password === "4321"
+    ) {
       localStorage.setItem("isAuthenticated", "true");
+
+      localStorage.setItem("userEmail", form.email);
 
       navigate("/dashboard");
     } else {
-      alert("Enter email & password");
+      alert("Invalid credentials");
     }
   };
 
@@ -56,7 +60,7 @@ export default function AuthForm() {
             {isLogin ? "Login" : "Signup"}
           </button>
         </form>
-
+        
         <p
           onClick={() => setIsLogin(!isLogin)}
           className="toggle-text"

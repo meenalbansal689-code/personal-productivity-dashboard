@@ -1,46 +1,113 @@
 .kanban-container {
   display: flex;
-  gap: 20px;
-  padding: 20px;
-  background: #f7f270;
+  gap: 24px;
+  padding: 24px;
+  background: #f4f7fb;
   min-height: 100vh;
-  font-size: medium;
+  align-items: flex-start;
 }
-
 .kanban-column {
   flex: 1;
-  background: #f35e5e8c;
-  padding: 15px;
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  transition: 0.3s ease;
+}
+
+.kanban-column:hover {
+  transform: translateY(-3px);
+}
+.kanban-column h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2f3542;
+  margin-bottom: 16px;
+}
+.task-input {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  outline: none;
   border-radius: 12px;
-  min-height: 500px;
-  display: flex;
-  flex-direction: column;
-  font-size: medium;
-  box-sizing: 40px;
-   
+  background: #f1f3f6;
+  font-size: 14px;
+  margin-bottom: 18px;
+  transition: 0.2s ease;
+  box-sizing: border-box;
 }
 
-.kanban-column {
-  overflow-y: auto;
+.task-input:focus {
+  background: #e8edf5;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
 }
-
 .task-card {
-  background: rgb(255, 255, 255);
-  padding: 4px;
-  margin-bottom: 8px;
-  border-radius: 7px;
-  box-shadow: 0 2px 6px rgb(253, 187, 187);
-  font-size: small;
+  background: #ffffff;
+  border: 1px solid #edf0f5;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+
+  cursor: grab;
+  transition: 0.25s ease;
+
+  overflow: hidden;
 }
-.Hover .task-card {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
-.task-column h3 {
-  font-size: 45px;    
+
+.task-card:active {
+  cursor: grabbing;
+}
+.task-text {
+  flex: 1;
+  font-size: 15px;
+  color: #2f3542;
+  line-height: 1.5;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.delete-btn {
+  width: 30px;
+  height: 30px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f1f3f6;
+  color: #ff4757;
+
+  font-size: 16px;
   font-weight: bold;
-  color: rgb(255, 143, 143);
-  margin-bottom: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  flex-shrink: 0;
 }
-.task-column h3 span {
-  font-size: 48px;
+
+.delete-btn:hover {
+  background: #ff4757;
+  color: white;
+  transform: scale(1.1);
+}
+@media (max-width: 900px) {
+  .kanban-container {
+    flex-direction: column;
+  }
 }

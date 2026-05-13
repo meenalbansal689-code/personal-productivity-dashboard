@@ -1,155 +1,160 @@
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState, useEffect } from "react";
 import "./Tasks.css";
 
+const initialData = {
+  todo: [],
+  inProgress: [],
+  done: []
+};
+
 export default function Tasks() {
-  const [tasks, setTasks] = useState([]);/*Stores all tasks,starts empty */
-  const [newTask, setNewTask] = useState({/*stores input text for each column*/
+  const [columns, setColumns] = useState(initialData);
+
+  const [newTask, setNewTask] = useState({
     todo: "",
-    progress: "",
+    inProgress: "",
     done: ""
   });
-
-  const [editingId, setEditingId] = useState(null);/*Tracks which tasks is being edited*/
-
-  useEffect(() => { 
-    const saved = JSON.parse(localStorage.getItem("tasks")) || []; 
-    setTasks(saved);
-  }, []); /*get saved tasks from browser, convert them into array and , or use empty array if none exist },[]) this closes useEffect*/
-
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+    const stored = JSON.parse(localStorage.getItem("kanban"));
+    if (stored) setColumns(stored);
+  }, []);
 
-  const addTask = (status) => {  /* function to add tasks*/
-    if (!newTask[status].trim()) return; /*if input is empty (or only spaces stop and do nothing */
+  const handleDragEnd = (result) => {
+    const { source, destination } = result;
 
-    const task = { /*Creates a variable named task*/
-      id: Date.now(), /*creates a unique ID for each task Returns current time in miliseconds*/
-      title: newTask[status], /*sets task title from input box*/
-      status, /*current column status*/
+    if (!destination) return;
+
+    const sourceItems = Array.from(columns[source.droppableId]);
+    const destItems = Array.from(columns[destination.droppableId]);
+
+    const [movedItem] = sourceItems.splice(source.index, 1);
+
+    if (source.droppableId === destination.droppableId) {
+      sourceItems.splice(destination.index, 0, movedItem);
+    } else {
+      destItems.splice(destination.index, 0, movedItem);
+    }
+
+    const updated = {
+      ...columns,
+      [source.droppableId]: sourceItems,
+      [destination.droppableId]: destItems
     };
 
-    setTasks([...tasks, task]); /*updates the task list*/
-    setNewTask({ /*update input box values*/
-      ...newTask, /*update old input values*/
-      [status]: "" /*clear current input box*/
-    }); /*finishing addtask input*/
+    setColumns(updated);
+    localStorage.setItem("kanban", JSON.stringify(updated));
   };
+  const addTask = (colId) => {
+    if (!newTask[colId].trim()) return;
 
-  const updateStatus = (id, newStatus) => {  
-    setTasks( 
-      tasks.map((t) => /*go through evry task 1 by 1,T means one task */
-        t.id === id ? { ...t, status: newStatus } : t /*here it checks is this the task we want*/
+    const updated = {
+      ...columns,
+      [colId]: [
+        ...columns[colId],
+        {
+          id: Date.now().toString(),
+          text: newTask[colId]
+        }
+      ]
+    };
+
+    setColumns(updated);
+    localStorage.setItem("kanban", JSON.stringify(updated));
+
+    setNewTask({
+      ...newTask,
+      [colId]: ""
+    });
+  };
+  const deleteTask = (colId, taskId) => {
+    const updated = {
+      ...columns,
+      [colId]: columns[colId].filter(
+        (task) => task.id !== taskId
       )
-    );
-  };
+    };
 
-  const updateTitle = (id, value) => {
-    setTasks(
-      tasks.map((t) => /*checks every task 1 by 1*/
-        t.id === id ? { ...t, title: value } : t
-      )
-    );
-  };
-
-  const moveForward = (id, currentStatus) => { /*creates function to move a task to next column*/
-    if (currentStatus === "todo") { 
-      updateStatus(id, "progress");
-    } 
-    else if (currentStatus === "progress") {
-      updateStatus(id, "done");
-    }
+    setColumns(updated);
+    localStorage.setItem("kanban", JSON.stringify(updated));
   };
 
   return (
     <div className="kanban-container">
+      <DragDropContext onDragEnd={handleDragEnd}>
+        {Object.entries(columns).map(([colId, tasks]) => (
+          <Droppable droppableId={colId} key={colId}>
+            {(provided) => (
+              <div
+                className="kanban-column"
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                <h3>
+                  {colId === "todo" && "📝 To Do"}
+                  {colId === "inProgress" && "⚡ In Progress"}
+                  {colId === "done" && "✅ Completed"}
+                </h3>
 
-      {["todo", "progress", "done"].map((status) => ( /*creates an array and .map loops through each item one by one*/
-        <div key={status} className="kanban-column"> 
-
-          <h3>
-            {status === "todo" && "⚪ Not Started"}
-            {status === "progress" && "🔵 In Progress"}
-            {status === "done" && "🟢 Done"}
-          </h3>
-
-          {tasks 
-            .filter((t) => (t.status || "todo") === status) /*Show tasks in correct column*/
-            .map((t) => ( 
-              <div key={t.id} className="task-card">  
-
-                {editingId === t.id ? ( /*is this task being edited*/
-                  <input
-                    value={t.title} 
-                    onChange={(e) => /*Runs when user types in input Every letter*/
-                      updateTitle(t.id, e.target.value) /*Gets what user typed*/
+                <input
+                  type="text"
+                  placeholder="Add a task..."
+                  value={newTask[colId]}
+                  onChange={(e) =>
+                    setNewTask({
+                      ...newTask,
+                      [colId]: e.target.value
+                    })
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      addTask(colId);
                     }
-                    onBlur={() => setEditingId(null)} /*runs when u click outside input*/
-                    autoFocus /*Cursor automatically goes into input*/
-                  />
-                ) : ( /*else part of condition*/
-                  <p
-                    onClick={(e) => { /*when task text is clicked*/
-                      e.stopPropagation(); /*Stops click from affecting parent elements*/
-                      setEditingId(t.id); /*Set this task into edit mode*/
-                    }}
+                  }}
+                  className="task-input"
+                />
+
+                {tasks.map((task, index) => (
+                  <Draggable
+                    key={task.id}
+                    draggableId={task.id}
+                    index={index}
                   >
-                    {t.title}
-                  </p>
-                )}
+                    {(provided) => (
+                      <div
+                        className="task-card"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={{
+                          ...provided.draggableProps.style,
+                          transition: "all 0.2s ease"
+                        }}
+                      >
+                        <span className="task-text">
+                          {task.text}
+                        </span>
 
-                <div className="actions">
+                        <button
+                          className="delete-btn"
+                          onClick={() =>
+                            deleteTask(colId, task.id)
+                          }
+                        >
+                          ✖
+                        </button>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
 
-                  {status !== "todo" && ( /*if task is NOT in Todo ,show left arrow*/
-                    <span /*Create clickable arrow*/
-                      onClick={(e) => {  /*When arrow clicked*/
-                        e.stopPropagation(); /*stop other click events*/
-
-                        if (status === "progress") { 
-                          updateStatus(t.id, "todo");
-                        }
-
-                        else if (status === "done") {
-                          updateStatus(t.id, "progress");
-                        }
-                      }}
-                    >
-                      ←
-                    </span>
-                  )}
-
-                  {status !== "done" && ( /*If task is NOT in Done column*/
-                    <span
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        moveForward(t.id, status);
-                      }}
-                    >
-                      →
-                    </span>
-                  )}
-
-                </div>
-
+                {provided.placeholder}
               </div>
-            ))}
-          <input
-            placeholder="+ Add a task" /*Show hint text*/
-            value={newTask[status]} /*show current typed input*/
-            onChange={(e) =>
-              setNewTask({ 
-                ...newTask, /*copy everything already in newTask*/
-                [status]: e.target.value
-              })
-            }
-            onKeyDown={(e) => /*if enter pressed*/
-              e.key === "Enter" && addTask(status) /*add task*/
-            }
-          />
-
-        </div>
-      ))}
-
+            )}
+          </Droppable>
+        ))}
+      </DragDropContext>
     </div>
   );
 }

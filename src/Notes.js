@@ -2,82 +2,166 @@ import { useState, useEffect } from "react";
 import "./Notes.css";
 
 export default function Notes() {
-  const [note, setNote] = useState("");/*text user type*/
-  const [notes, setNotes] = useState([]);/*stores all notes*/
+
+  const [notes, setNotes] = useState([]);
+
+  const [input, setInput] = useState("");
+
   const [editId, setEditId] = useState(null);
- 
-  useEffect(() => {
-    const savedNotes = JSON.parse(localStorage.getItem("notes"));
-    if (savedNotes) setNotes(savedNotes);
-  }, []);
 
   useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(notes));
-  }, [notes]);
 
-  const handleSubmit = () => {
-    if (note.trim() === "") return;
+    const stored =
+      JSON.parse(localStorage.getItem("notes"));
 
-    if (editId) {
-      setNotes(
-        notes.map((n) =>
-          n.id === editId ? { ...n, text: note } : n
-        )
-      );
-      setEditId(null);
-    } else {
-      setNotes([...notes, { id: Date.now(), text: note }]);
+    if (stored) {
+      setNotes(stored);
     }
 
-    setNote("");
+  }, []);
+
+  const addNote = () => {
+
+    if (!input.trim()) return;
+
+    if (editId !== null) {
+
+      const updated = notes.map((note) => {
+
+        if (note.id === editId) {
+
+          return {
+            ...note,
+            text: input
+          };
+        }
+
+        return note;
+      });
+
+      setNotes(updated);
+
+      localStorage.setItem(
+        "notes",
+        JSON.stringify(updated)
+      );
+
+      setEditId(null);
+
+    } else {
+
+      const updated = [
+        ...notes,
+        {
+          id: Date.now(),
+          text: input
+        }
+      ];
+
+      setNotes(updated);
+
+      localStorage.setItem(
+        "notes",
+        JSON.stringify(updated)
+      );
+    }
+
+    setInput("");
   };
 
-  const handleEdit = (n) => {
-    setNote(n.text);
-    setEditId(n.id);
+  const deleteNote = (id) => {
+
+    const updated = notes.filter(
+      (note) => note.id !== id
+    );
+
+    setNotes(updated);
+
+    localStorage.setItem(
+      "notes",
+      JSON.stringify(updated)
+    );
   };
 
-  const handleDelete = (id) => {
-    setNotes(notes.filter((n) => n.id !== id));
+  const editNote = (note) => {
+
+    setInput(note.text);
+
+    setEditId(note.id);
   };
 
   return (
+
     <div className="notes-container">
-      <h1>Notes</h1>
 
-      <input
-        type="text"
-        placeholder="Write a note..."
-        value={note}
-        onChange={(e) => setNote(e.target.value)}
-        className="note-input"
-      />
+      <h1 className="notes-title">
+        Notes
+      </h1>
 
-      <button onClick={handleSubmit} className="note-btn">
-        {editId ? "Update" : "Add"}
-      </button>
+      <div className="notes-input-container">
 
-      <ul className="note-list">
-        {notes.map((n) => (
-          <li key={n.id} className="note-item">
-            <span>{n.text}</span>
+        <input
+          type="text"
+          placeholder="Write a note..."
+          className="notes-input"
+          value={input}
+          onChange={(e) =>
+            setInput(e.target.value)
+          }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              addNote();
+            }
+          }}
+        />
 
-            <button 
-  onClick={() => handleEdit(n)}
-  className="edit-btn"
->
-  ✏ Edit
-</button>
+        <button
+          className="add-btn"
+          onClick={addNote}
+        >
+          {editId !== null ? "Update" : "Add"}
+        </button>
 
-<button 
-  onClick={() => handleDelete(n.id)}
-  className="delete-btn"
->
-  🗑 Delete
-</button>
-          </li>
+      </div>
+
+      <div className="notes-list">
+
+        {notes.map((note) => (
+
+          <div
+            className="note-card"
+            key={note.id}
+          >
+
+            <div className="note-text">
+              {note.text}
+            </div>
+
+            <div className="note-actions">
+
+              <button
+                className="edit-btn"
+                onClick={() => editNote(note)}
+              >
+                ✏ Edit
+              </button>
+
+              <button
+                className="delete-btn"
+                onClick={() =>
+                  deleteNote(note.id)
+                }
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </div>
         ))}
-      </ul>
+
+      </div>
+
     </div>
   );
 }

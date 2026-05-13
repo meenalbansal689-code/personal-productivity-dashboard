@@ -3,91 +3,144 @@ import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 export default function Dashboard() {
-  const [tasks, setTasks] = useState([]); /*([])initializes state with an empty array*/
-  const navigate = useNavigate(); /*it returns a function stored in*/ 
 
-  useEffect(() => { /*used for fetching data,Checking login,Calling APIs*/
-    const isAuth = 
-      localStorage.getItem("isAuthenticated") === "true"; /*if user is not logged in, don't allow access to this page , send them back to login*/
+  const navigate = useNavigate();
+
+  const [stats, setStats] = useState({
+    totalTasks: 0,
+    completedTasks: 0,
+    pendingTasks: 0,
+    totalNotes: 0,
+    totalHabits: 0,
+    completedHabits: 0
+  });
+
+  useEffect(() => {
+
+    const isAuth =
+      localStorage.getItem("isAuthenticated") === "true";
 
     if (!isAuth) {
       navigate("/");
     }
+
   }, [navigate]);
 
   useEffect(() => {
-   const savedTasks =
-JSON.parse(localStorage.getItem("tasks")) || [];
-    setTasks(savedTasks);
+
+    const kanban =
+      JSON.parse(localStorage.getItem("kanban")) || {
+        todo: [],
+        inProgress: [],
+        done: []
+      };
+
+    const totalTasks =
+      kanban.todo.length +
+      kanban.inProgress.length +
+      kanban.done.length;
+
+    const completedTasks =
+      kanban.done.length;
+
+    const pendingTasks =
+      kanban.todo.length +
+      kanban.inProgress.length;
+
+    const notes =
+      JSON.parse(localStorage.getItem("notes")) || [];
+
+    const totalNotes =
+      notes.length;
+
+    const habits =
+      JSON.parse(localStorage.getItem("habits")) || [];
+
+    const totalHabits =
+      habits.length;
+
+    const completedHabits =
+      habits.filter(
+        (habit) => habit.completedToday
+      ).length;
+
+    setStats({
+      totalTasks,
+      completedTasks,
+      pendingTasks,
+      totalNotes,
+      totalHabits,
+      completedHabits
+    });
+
   }, []);
 
-  const totalTasks = tasks.length;
-  const completedTasks = tasks.filter(task => task.completed).length;
-  const pendingTasks = totalTasks - completedTasks;
-
-  const habitRate =
-    totalTasks === 0
-      ? 0
-      : Math.round((completedTasks / totalTasks) * 100);
-
   return (
-    <div className="dashboard">
-      <div className="fruit-bg">
-        <span className="fruit">🍉</span>
-        <span className="fruit">🍊</span>
-        <span className="fruit">🍋</span>
-        <span className="fruit">🍉</span>
-        <span className="fruit">🍊</span>
-        <span className="fruit">🍋</span>
-        <span className="fruit">🍉</span>
-        <span className="fruit">🍊</span>
-        <span className="fruit">🍋</span>
-        <span className="fruit">🍉</span>
-        <span className="fruit">🍊</span>
-        <span className="fruit">🍉</span>
-        <span className="fruit">🍊</span>
-        <span className="fruit">🍋</span>
-        <span className="fruit">🍉</span>
-        <span className="fruit">🍊</span>
-        <span className="fruit">🍋</span>
-        <span className="fruit">🍉</span>
-        <span className="fruit">🍊</span>
-        <span className="fruit">🍋</span>
-        <span className="fruit">🎀</span>
-        <span className="fruit">🎀</span>
-        
-       
-      </div>
 
-      <h1>Dashboard</h1>
-      <p>Welcome back! Here's your productivity overview</p>
+    <div className="dashboard">
+
+      <div className="dashboard-header">
+
+        <div>
+
+          <h1>Dashboard</h1>
+
+          <p>
+            Welcome back! Here's your productivity overview
+          </p>
+
+        </div>
+
+      </div>
 
       <div className="nav-buttons">
-        <button onClick={() => navigate("/tasks")}>Tasks</button>
-        <button onClick={() => navigate("/notes")}>Notes</button>
-        <button onClick={() => navigate("/habits")}>Habits</button>
+
+        <button onClick={() => navigate("/tasks")}>
+          📝 Tasks
+        </button>
+
+        <button onClick={() => navigate("/notes")}>
+          📒 Notes
+        </button>
+
+        <button onClick={() => navigate("/habits")}>
+          🔥 Habits
+        </button>
+
       </div>
 
-      <div className="cards">
-        <div className="card">
-          <h2>Total Tasks</h2>
-          <p>{totalTasks}</p>
+      <div className="dashboard-grid">
+
+        <div className="dashboard-card">
+          <h3>Total Tasks</h3>
+          <h2>{stats.totalTasks}</h2>
         </div>
 
-        <div className="card">
-          <h2>Completed</h2>
-          <p>{completedTasks}</p>
+        <div className="dashboard-card">
+          <h3>Completed Tasks</h3>
+          <h2>{stats.completedTasks}</h2>
         </div>
 
-        <div className="card">
-          <h2>Pending</h2>
-          <p>{pendingTasks}</p>
+        <div className="dashboard-card">
+          <h3>Pending Tasks</h3>
+          <h2>{stats.pendingTasks}</h2>
         </div>
 
-        <div className="card">
-          <h2>Habit Rate</h2>
-          <p>{habitRate}%</p>
+        <div className="dashboard-card">
+          <h3>Total Notes</h3>
+          <h2>{stats.totalNotes}</h2>
         </div>
+
+        <div className="dashboard-card">
+          <h3>Total Habits</h3>
+          <h2>{stats.totalHabits}</h2>
+        </div>
+
+        <div className="dashboard-card">
+          <h3>Completed Habits</h3>
+          <h2>{stats.completedHabits}</h2>
+        </div>
+
       </div>
 
     </div>
